@@ -913,7 +913,7 @@ footer{
 <img class="hero-img" src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=900&q=85&fit=crop" alt="Happy patient with a bright smile at PembrokeSmile dental clinic" loading="eager">
     <div class="hero-badge">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--gold)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      4.9 · 320 Google reviews
+      Sample rating layout · not verified reviews
     </div>
     <div class="hero-availability">
       <div class="avail-label">Next available</div>
@@ -1038,7 +1038,7 @@ footer{
 <section id="gallery" class="reveal">
   <div class="section-eyebrow">Real results</div>
   <h2 class="section-title display">Before & after</h2>
-  <p class="section-sub">Actual patient results. All cases performed by our board-certified dentists. Individual results may vary.</p>
+  <p class="section-sub">Illustrative comparison layout only — no real patient results are shown. Names, ratings, credentials, availability and prices on this concept page are sample content.</p>
   <!-- Before/After interactive slider cards -->
   <div class="gallery-grid" id="baGrid"></div>
   <script>
@@ -1277,7 +1277,7 @@ footer{
         <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
       </div>
       <span style="font-family:var(--font-display);font-size:22px;color:var(--navy)">4.9</span>
-      <span style="font-size:13px;color:var(--text-muted)">based on 320 Google reviews</span>
+      <span style="font-size:13px;color:var(--text-muted)">sample testimonials for layout demonstration</span>
     </div>
   </div>
   <div class="testimonials-grid" id="reviewsGrid"></div>
@@ -1513,7 +1513,7 @@ pricing.forEach(([name,dur,price,fin])=>{
 });
 
 // ── Calendar ───────────────────────────────────────────────────
-let calDate=new Date(2025,5,1);
+let calDate=new Date(new Date().getFullYear(),new Date().getMonth(),1);
 function renderCal(){
   const m=calDate.getMonth(),y=calDate.getFullYear();
   const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1530,9 +1530,9 @@ function renderCal(){
   }
   for(let d=1;d<=days;d++){
     const isToday=d===today.getDate()&&m===today.getMonth()&&y===today.getFullYear();
-    const isAvail=available.includes(d);
+    const isAvail=available.includes(d) && new Date(y,m,d) >= new Date(today.getFullYear(),today.getMonth(),today.getDate());
     const cls=['cal-day',isToday?'today':'',isAvail?'available has-slot':''].filter(Boolean).join(' ');
-    grid.innerHTML+=`<div class="${cls}" onclick="selectDay(this,${d},${m},${y})">${d}</div>`;
+    grid.innerHTML+=`<button type="button" class="${cls}" ${isAvail ? '' : 'disabled'} onclick="selectDay(this,${d},${m},${y})">${d}</button>`;
   }
   const remaining=42-(first+days);
   for(let d=1;d<=remaining;d++) grid.innerHTML+=`<div class="cal-day other-month">${d}</div>`;
@@ -1542,9 +1542,10 @@ function renderCal(){
   });
 }
 renderCal();
-document.getElementById('prevMonth').addEventListener('click',()=>{calDate.setMonth(calDate.getMonth()-1);renderCal()});
+document.getElementById('prevMonth').addEventListener('click',()=>{const now=new Date();if(calDate>new Date(now.getFullYear(),now.getMonth(),1)){calDate.setMonth(calDate.getMonth()-1);renderCal()}});
 document.getElementById('nextMonth').addEventListener('click',()=>{calDate.setMonth(calDate.getMonth()+1);renderCal()});
 function selectDay(el,d,m,y){
+  if(!el.classList.contains('available')) return;
   document.querySelectorAll('.cal-day').forEach(e=>e.classList.remove('selected'));
   el.classList.add('selected');
   const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1555,7 +1556,7 @@ function selectTime(el){
   el.classList.add('selected');
 }
 function confirmBooking(){
-  alert('✅ Booking request received!\n\nWe will confirm your appointment within 2 hours via email and SMS.\n\nFor immediate assistance, WhatsApp us at (954) 555-0182.');
+  window.openDemoReview('Appointment simulation');
 }
 
 // ── Team ───────────────────────────────────────────────────────
@@ -1618,5 +1619,8 @@ document.querySelectorAll('.faq-question').forEach(el=>{
   el.addEventListener('mouseleave',()=>cursor.classList.remove('hover'));
 });
 </script>
+
+<script src="demo-experience.js"></script>
 </body>
+
 </html>
