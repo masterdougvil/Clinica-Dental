@@ -1511,15 +1511,13 @@ const pricing=[
   ['Cosmetic Dentistry','30 min','From $500',false],
 ];
 const pb=document.getElementById('pricingBody');
+function selectPricingTreatment(name){
+  const treatment=document.getElementById('treatmentSelect');
+  const option=Array.from(treatment.options).find(item=>item.textContent.startsWith(name));
+  if(option) treatment.value=option.value;
+}
 pricing.forEach(([name,dur,price,fin])=>{
-  pb.innerHTML+=`<tr><td style="font-weight:500">${name}</td><td><span class="duration-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${dur}</span></td><td><span class="price-tag">${price}</span></td><td>${fin?'<span class="financing-badge">Sample financing</span>':'<span style="font-size:12px;color:var(--text-faint)">Example only</span>'}</td><td><a href="#booking" class="book-link" data-treatment="${name}">Preview →</a></td></tr>`;
-});
-document.querySelectorAll('.book-link[data-treatment]').forEach(link=>{
-  link.addEventListener('click',()=>{
-    const requested=link.dataset.treatment;
-    const option=Array.from(document.getElementById('treatmentSelect').options).find(item=>item.textContent.startsWith(requested));
-    if(option) document.getElementById('treatmentSelect').value=option.value;
-  });
+  pb.innerHTML+=`<tr><td style="font-weight:500">${name}</td><td><span class="duration-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${dur}</span></td><td><span class="price-tag">${price}</span></td><td>${fin?'<span class="financing-badge">Sample financing</span>':'<span style="font-size:12px;color:var(--text-faint)">Example only</span>'}</td><td><a href="#booking" class="book-link" data-treatment="${name}" onclick="selectPricingTreatment(this.dataset.treatment)">Preview →</a></td></tr>`;
 });
 
 // ── Calendar ───────────────────────────────────────────────────
