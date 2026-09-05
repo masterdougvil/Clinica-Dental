@@ -974,8 +974,8 @@ footer{
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           </div>
           <div>
-            <div class="value-title">Patient-first philosophy</div>
-            <div class="value-desc">Every treatment plan is designed around your unique needs, comfort, and long-term oral health goals.</div>
+            <div class="value-title">Example: patient-first messaging</div>
+            <div class="value-desc">A real clinic could use this area to explain its verified approach to individual needs, comfort, and long-term oral health.</div>
           </div>
         </div>
         <div class="about-value">
@@ -983,8 +983,8 @@ footer{
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           </div>
           <div>
-            <div class="value-title">Cutting-edge technology</div>
-            <div class="value-desc">Digital X-rays, 3D CBCT scans, same-day ceramic restorations, and laser dentistry for precision and comfort.</div>
+            <div class="value-title">Example: technology overview</div>
+            <div class="value-desc">A verified client could list the equipment and procedures actually available at its location.</div>
           </div>
         </div>
         <div class="about-value">
@@ -992,8 +992,8 @@ footer{
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </div>
           <div>
-            <div class="value-title">Warm, anxiety-free care</div>
-            <div class="value-desc">Sedation options, gentle techniques, and a team trained to make even the most anxious patients feel at ease.</div>
+            <div class="value-title">Example: comfort information</div>
+            <div class="value-desc">This space could describe verified comfort options and staff training without promising a particular patient experience.</div>
           </div>
         </div>
       </div>
@@ -1212,8 +1212,11 @@ footer{
           <option>Invisalign Consultation — Free</option>
           <option>Dental Implants — $2,400</option>
           <option>Root Canal — $800</option>
+          <option>Dental Crowns — $900</option>
+          <option>Dental Bridges — $1,200</option>
           <option>Emergency Dental Care — $150</option>
           <option>Pediatric Dentistry — $80</option>
+          <option>Cosmetic Consultation — Free</option>
         </select>
       </div>
       <div>
@@ -1503,13 +1506,20 @@ const pricing=[
   ['Root Canal','90 min','$800 – $1,400',false],
   ['Dental Crowns','2 visits','$900 – $1,600',true],
   ['Dental Bridges','2 visits','$1,200 – $2,400',true],
-  ['Emergency Care','60 min','$150 – $500',false],
+  ['Emergency Dental Care','60 min','$150 – $500',false],
   ['Pediatric Dentistry','45 min','$80 – $200',false],
   ['Cosmetic Consultation','30 min','Free',false],
 ];
 const pb=document.getElementById('pricingBody');
 pricing.forEach(([name,dur,price,fin])=>{
-  pb.innerHTML+=`<tr><td style="font-weight:500">${name}</td><td><span class="duration-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${dur}</span></td><td><span class="price-tag">${price}</span></td><td>${fin?'<span class="financing-badge">✓ 0% available</span>':'<span style="font-size:12px;color:var(--text-faint)">Insurance</span>'}</td><td><a href="#booking" class="book-link" onclick="document.getElementById(\'booking\').scrollIntoView({behavior:\'smooth\'});return false">Book →</a></td></tr>`;
+  pb.innerHTML+=`<tr><td style="font-weight:500">${name}</td><td><span class="duration-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${dur}</span></td><td><span class="price-tag">${price}</span></td><td>${fin?'<span class="financing-badge">Sample financing</span>':'<span style="font-size:12px;color:var(--text-faint)">Example only</span>'}</td><td><a href="#booking" class="book-link" data-treatment="${name}">Preview →</a></td></tr>`;
+});
+document.querySelectorAll('.book-link[data-treatment]').forEach(link=>{
+  link.addEventListener('click',()=>{
+    const requested=link.dataset.treatment;
+    const option=Array.from(document.getElementById('treatmentSelect').options).find(item=>item.textContent.startsWith(requested));
+    if(option) document.getElementById('treatmentSelect').value=option.value;
+  });
 });
 
 // ── Calendar ───────────────────────────────────────────────────
